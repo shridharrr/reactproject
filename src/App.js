@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-
+import './style.css';
 
 const YourComponent = () => {
   const [claimStatus, setClaimStatus] = useState('Yes');
@@ -89,135 +89,89 @@ const YourComponent = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <label>
-        Claim Status:
-        <select value={claimStatus} onChange={(e) => setClaimStatus(e.target.value)}>
-          <option value="Yes">Yes</option>
-          <option value="No">No</option>
-        </select>
-      </label>
+    <div className="container">
+      <header>Form</header>
+      <form onSubmit={handleSubmit}>
+        <div className="form">
+          <div className="title">Claim Status</div>
+          <select value={claimStatus} onChange={(e) => setClaimStatus(e.target.value)}>
+            <option value="Yes">Yes</option>
+            <option value="No">No</option>
+          </select>
 
-      <br />
+          <div className="title">Customer Approval Status</div>
+          <select value={customerApprovalStatus} onChange={(e) => setCustomerApprovalStatus(e.target.value)}>
+            <option value="Yes">Yes</option>
+            <option value="No">No</option>
+          </select>
 
-      <label>
-        Customer Approval Status:
-        <select value={customerApprovalStatus} onChange={(e) => setCustomerApprovalStatus(e.target.value)}>
-          <option value="Yes">Yes</option>
-          <option value="No">No</option>
-        </select>
-      </label>
+          <div className="title">Supplier</div>
+          <select value={selectedSupplier} onChange={handleSupplierChange}>
+            <option value="">Select a supplier</option>
+            {suppliers.map((supplier) => (
+              <option key={supplier.id} value={supplier.id}>
+                {supplier.name}
+              </option>
+            ))}
+          </select>
 
-      <br />
+          <div className="title">Warehouse</div>
+          <select value={selectedWarehouse} onChange={handleWarehouseChange}>
+            <option value="">Select a warehouse</option>
+            {warehouses.map((warehouse) => (
+              <option key={warehouse.id} value={warehouse.id}>
+                {warehouse.name}
+              </option>
+            ))}
+          </select>
 
-      <label>
-        Supplier:
-        <select value={selectedSupplier} onChange={handleSupplierChange}>
-          <option value="">Select a supplier</option>
-          {suppliers.map((supplier) => (
-            <option key={supplier.id} value={supplier.id}>
-              {supplier.name}
-            </option>
-          ))}
-        </select>
-      </label>
+          <div className="title">IT Services</div>
+          <select value={itServices} onChange={(e) => setITServices(e.target.value)}>
+            <option value="Yes">Yes</option>
+            <option value="No">No</option>
+          </select>
 
-      <br />
+          <div className="title">Amenities</div>
+          <select value={amenities} onChange={(e) => setAmenities(e.target.value)}>
+            <option value="">Select an amenity</option>
+            <option value="Amenity 1">Amenity 1</option>
+            <option value="Amenity 2">Amenity 2</option>
+            <option value="Amenity 3">Amenity 3</option>
+          </select>
 
-      <label>
-        Warehouse:
-        <select value={selectedWarehouse} onChange={handleWarehouseChange}>
-          <option value="">Select a warehouse</option>
-          {warehouses.map((warehouse) => (
-            <option key={warehouse.id} value={warehouse.id}>
-              {warehouse.name}
-            </option>
-          ))}
-        </select>
-      </label>
+          <div className="title">Labor</div>
+          <select value={labor} onChange={(e) => setLabor(e.target.value)}>
+            <option value="">Select labor</option>
+            <option value="Labor 1">Labor 1</option>
+            <option value="Labor 2">Labor 2</option>
+            <option value="Labor 3">Labor 3</option>
+          </select>
 
-      <br />
+          <div className="title">Quantity</div>
+          <input type="number" value={quantity} onChange={(e) => setQuantity(e.target.value)} />
 
-      <label>
-        IT Services:
-        <select value={itServices} onChange={(e) => setITServices(e.target.value)}>
-          <option value="Yes">Yes</option>
-          <option value="No">No</option>
-        </select>
-      </label>
+          <div className="title">Rate</div>
+          <input type="number" value={rate} onChange={(e) => setRate(e.target.value)} />
 
-      <br />
+          <div className="title">GST Percentage</div>
+          <input type="number" value={gstPercentage} onChange={(e) => setGstPercentage(e.target.value)} />
 
-      <label>
-        Amenities:
-        <select value={amenities} onChange={(e) => setAmenities(e.target.value)}>
-          <option value="">Select an amenity</option>
-          <option value="Amenity 1">Amenity 1</option>
-          <option value="Amenity 2">Amenity 2</option>
-          <option value="Amenity 3">Amenity 3</option>
-        </select>
-      </label>
+          <div className="title">Taxable Amount</div>
+          <input type="number" value={taxableAmount} readOnly />
 
-      <br />
+          <div className="title">GST Amount</div>
+          <input type="number" value={gstAmount} readOnly />
 
-      <label>
-        Labor:
-        <select value={labor} onChange={(e) => setLabor(e.target.value)}>
-          <option value="">Select labor</option>
-          <option value="Labor 1">Labor 1</option>
-          <option value="Labor 2">Labor 2</option>
-          <option value="Labor 3">Labor 3</option>
-        </select>
-      </label>
+          <div className="title">Total Amount</div>
+          <input type="number" value={totalAmount} readOnly />
 
-      <br />
-
-      <label>
-        Quantity:
-        <input type="number" value={quantity} onChange={(e) => setQuantity(e.target.value)} />
-      </label>
-
-      <br />
-
-      <label>
-        Rate:
-        <input type="number" value={rate} onChange={(e) => setRate(e.target.value)} />
-      </label>
-
-      <br />
-
-      <label>
-        GST Percentage:
-        <input type="number" value={gstPercentage} onChange={(e) => setGstPercentage(e.target.value)} />
-      </label>
-
-      <br />
-
-      <label>
-        Taxable Amount:
-        <input type="number" value={taxableAmount} readOnly />
-      </label>
-
-      <br />
-
-      <label>
-        GST Amount:
-        <input type="number" value={gstAmount} readOnly />
-      </label>
-
-      <br />
-
-      <label>
-        Total Amount:
-        <input type="number" value={totalAmount} readOnly />
-      </label>
-
-      <br />
-
-      <button type="submit">Submit</button>
-    </form>
+          <button type="submit">Submit</button>
+        </div>
+        <div className="progress-bar"></div>
+      </form>
+      <button className="backBtn">Back</button>
+    </div>
   );
 };
 
 export default YourComponent;
-
