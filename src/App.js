@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import './style.css';
 
 const YourComponent = () => {
@@ -19,33 +20,30 @@ const YourComponent = () => {
   const [totalAmount, setTotalAmount] = useState(0);
 
   useEffect(() => {
-    // Fetch suppliers from MySQL table
     fetchSuppliers();
-
-    // Fetch warehouses from MySQL table
     fetchWarehouses();
   }, []);
 
   const fetchSuppliers = () => {
-    // Perform API call to fetch suppliers from MySQL table
-    // Update the 'suppliers' state with the fetched data
-    const dummySuppliers = [
-      { id: 1, name: 'Supplier 1' },
-      { id: 2, name: 'Supplier 2' },
-      { id: 3, name: 'Supplier 3' },
-    ];
-    setSuppliers(dummySuppliers);
+    axios
+      .get('http://localhost:8080/suppliers')
+      .then((response) => {
+        setSuppliers(response.data);
+      })
+      .catch((error) => {
+        console.error('Failed to fetch suppliers:', error);
+      });
   };
 
   const fetchWarehouses = () => {
-    // Perform API call to fetch warehouses from MySQL table
-    // Update the 'warehouses' state with the fetched data
-    const dummyWarehouses = [
-      { id: 1, name: 'Warehouse 1' },
-      { id: 2, name: 'Warehouse 2' },
-      { id: 3, name: 'Warehouse 3' },
-    ];
-    setWarehouses(dummyWarehouses);
+    axios
+      .get('http://localhost:8080/warehouses')
+      .then((response) => {
+        setWarehouses(response.data);
+      })
+      .catch((error) => {
+        console.error('Failed to fetch warehouses:', error);
+      });
   };
 
   const handleSupplierChange = (e) => {
@@ -57,7 +55,6 @@ const YourComponent = () => {
   };
 
   useEffect(() => {
-    // Calculate Taxable Amount, GST Amount, and Total Amount whenever there is a change in relevant fields
     const basicAmount = quantity * rate;
     const taxable = basicAmount + gstAmount;
     const calculatedGstAmount = (gstPercentage * taxable) / 100;
@@ -71,7 +68,7 @@ const YourComponent = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    console.log('Form submitted:', {
+    const supplierData = {
       claimStatus,
       customerApprovalStatus,
       selectedSupplier,
@@ -85,7 +82,16 @@ const YourComponent = () => {
       taxableAmount,
       gstAmount,
       totalAmount,
-    });
+    };
+
+    axios
+      .post('http://localhost:8080/suppliers', supplierData)
+      .then((response) => {
+        console.log('Supplier created:', response.data);
+      })
+      .catch((error) => {
+        console.error('Failed to create supplier:', error);
+      });
   };
 
   return (
@@ -110,7 +116,7 @@ const YourComponent = () => {
             <option value="">Select a supplier</option>
             {suppliers.map((supplier) => (
               <option key={supplier.id} value={supplier.id}>
-                {supplier.name}
+                {supplier.sname}
               </option>
             ))}
           </select>
@@ -120,7 +126,7 @@ const YourComponent = () => {
             <option value="">Select a warehouse</option>
             {warehouses.map((warehouse) => (
               <option key={warehouse.id} value={warehouse.id}>
-                {warehouse.name}
+                {warehouse.sname}
               </option>
             ))}
           </select>
